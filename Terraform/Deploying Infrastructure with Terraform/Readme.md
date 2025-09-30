@@ -171,6 +171,12 @@ The `terraform destroy` command is used to **delete all or specific infrastructu
 - It is **destructive**, so it should be used with caution.
 - Can destroy **all resources** or **specific resources** using the `-target` option.
 
+![alt text](image-8.png)
+
+```bash
+   terraform destroy -target resourc type.local resource name
+```
+
 ---
 
 #### 3. Basic Usage
@@ -274,4 +280,14 @@ terraform apply -refresh-only -auto-approve
 
 
   
+
+- if we change resource configuration manually in aws then we apply configue file that change resurce as per configueration file and also change in state tf 
+
+- if we run aplly -refresh-only than the  only change state file not in resource
+
+- if we delete state file then they create new resources
+
+- and if we delete state file and use refresh-only command that is not give any data on file 
+
+
 
