@@ -1,0 +1,25 @@
+Notification message
+
+{{#is_match "host.name" "new" }}
+  
+  Hi Team {{host.name}} is down. Please check and fix the issue @dev@gmail.com
+  
+{{else}}
+
+  Hi Team {{host.name}} is down. Please check and fix the issue @prod@gmail.com
+  
+{{/is_match}}
+
+ @xyz@gmail.com
+ 
+ 
+ 
+ 
+Re-Notification message
+
+
+{{#is_renotify}}
+
+  This is an escalation message on the attached incident. It was first observed at {{first_triggered_at}} escalation@gmail.com
+  
+{{/is_renotify}}

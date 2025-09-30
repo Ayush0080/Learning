@@ -1,0 +1,41 @@
+{
+    "title": "Kubernetes Cluster Overview",
+    "widgets": [
+      {
+        "definition": {
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:kubernetes.cpu.usage.total{cluster_name:aks-datadog-cluster} by {pod_name}",
+              "display_type": "line"
+            }
+          ],
+          "title": "Pod CPU Usage"
+        }
+      },
+      {
+        "definition": {
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:kubernetes.memory.usage{cluster_name:aks-datadog-cluster} by {pod_name}",
+              "display_type": "line"
+            }
+          ],
+          "title": "Pod Memory Usage"
+        }
+      },
+      {
+        "definition": {
+          "type": "query_value",
+          "requests": [
+            {
+              "q": "sum:kubernetes.pods.running{cluster_name:aks-datadog-cluster}",
+              "aggregator": "last"
+            }
+          ],
+          "title": "Running Pods"
+        }
+      }
+    ]
+  }

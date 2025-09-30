@@ -1,0 +1,27 @@
+command structure - commandName -options inputs
+cal 12 2025 - command=cal inputs= 12, 2025 
+date -u - command=date options= -u
+- use for short options and -- use for longForm
+
+which cal - path of cal (where is located cal)
+man -k which - find manually or says search engine where -k is used for search
+
+
+redirection : 
+Standard input is stream number o
+Standard output is stream number 1
+Standard error is stream number 2
+
+cat 1>> output.txt = use to append the content to the file (>>)
+cat 1> output.txt = where > will overwrite a file
+cat 0>input.txt 1>output.txt - redirect  Standard input to Standard output
+
+Piping is the connection of the standard output of one command to the standard input of 
+another command. Piping using the pipe character (|) 
+
+The tee command allows us to take a “snapshot” of the data in the pipeline without
+breaking the pipeline.
+commandOne –options arguments | tee snapshot.txt | commandTwo –options arguments
+
+
+

@@ -1,0 +1,56 @@
+datadog:
+  apiKey: <YOUR_DATADOG_API_KEY>
+  site: datadoghq.com
+  
+  # Enable logs collection
+  logs:
+    enabled: true
+    containerCollectAll: true
+  
+  # Enable APM
+  apm:
+    enabled: true
+    portEnabled: true
+  
+  # Enable process monitoring
+  processAgent:
+    enabled: true
+    processCollection: true
+  
+  # Enable network monitoring
+  networkMonitoring:
+    enabled: true
+  
+  # Enable security monitoring
+  securityAgent:
+    runtime:
+      enabled: true
+
+# Enable cluster agent
+clusterAgent:
+  enabled: true
+  metricsProvider:
+    enabled: true
+  
+# Node agent configuration
+agents:
+  image:
+    tag: "7.48.0"
+  
+  # Resource limits
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  
+  # Enable auto-discovery
+  containers:
+    agent:
+      env:
+        - name: DD_KUBERNETES_KUBELET_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
