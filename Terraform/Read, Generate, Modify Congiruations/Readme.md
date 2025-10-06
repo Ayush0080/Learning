@@ -130,10 +130,12 @@ echo TF_VAR_instancetype
 - Represented by a pair of square brackets containing a comma-separated sequence of values, like ["a", 15, true].
 
 ****
-    - value must be in []
+  - value must be in []
+
 - Create EC2 instance with 2 security groups attached.
 ![alt text](image-15.png)
 - We can also specify the type of values expected in a list.
+
 ![alt text](image-16.png)
 
 
@@ -163,4 +165,13 @@ of the resource.
   ![alt text](image-21.png)
 
   - if we want to give differant name than we can use variable as showing below
+
+       - if we give count value as 2 than the create user like a and b not c
    ![alt text](image-22.png)
+
+### Conditional Expressions
+
+- Conditional expressions in Terraform allow you to choose between two values 
+based on a condition
+
+ ![alt text](image-23.png)
