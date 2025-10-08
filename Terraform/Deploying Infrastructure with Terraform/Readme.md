@@ -271,7 +271,7 @@ Suppose someone manually changed an EC2 instance type in AWS.
 - Running:
 
 ```bash
-terraform apply -refresh-only -auto-approve
+terraform apply -refresh-only -auto-approve 
 ```
 
 ### AWS Provider - Authentication Configuration

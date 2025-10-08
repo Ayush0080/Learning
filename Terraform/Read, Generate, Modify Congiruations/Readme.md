@@ -145,6 +145,15 @@ export TF_VAR_PATH=file path
 #### Data Type - Map
 - A map data type represents a collection of key-value pair elements
 
+
+#### Data Type - SET 
+- Sets can only store unique elements.
+- Any duplicates are automatically removed
+- A set does not store the order of the elements.
+- Terraform only tracks the presence of elements, not their order
+- If the elements in a set change order, Terraform won’t detect that as a change. However, if an element is added or removed, Terraform will apply updates accordingly.
+
+
 ***
 #### Fetching Data from Maps and List in Variable
 
@@ -324,3 +333,166 @@ terraform apply -replace="aws_instance.myec2"
 ```
  
  
+### Splat Expression
+
+- Splat Expression allows us to get a list of all the attributes.
+  ![alt text](image-39.png)
+
+
+### Terraform Graph 
+
+- Terraform graph refers to a visual representation of the dependency 
+relationships between resources defined in your Terraform configuration
+
+- for graph view need to install graphviz (ubuntu)
+  ```bash
+   sudo apt install graphviz
+   terraform graph | dot -Tsvg > graph.svg
+
+  ```
+  ![alt text](image-40.png)
+ 
+
+###  Saving Terraform Plan to File
+
+- Terraform allows saving a plan to a file
+ ```bash
+terraform plan -out ec2.plan
+ ```
+
+- You can run the terraform apply by referencing the plan file.
+```bash
+  terraform apply ec2.plan
+``` 
+- whenever we crete .plan file whatever content was there as part of configration file that content will be save and also when we create infra using plan file when the plan was saved,based on those content, the infrastructure will be created.
+
+```bash
+terrafrom show ec2.plan # to show content of file
+```
+
+### Terraform Output
+- The terraform output command is used to extract the value of an output variable from the state 
+file.
+```bash
+  terraform output outputattributes 
+```
+
+
+###  Terraform Settings
+
+- specific code that we have specified,it works only with a very specific version of Terraform and a very specific version of the provider plugins.So in such case, Terraform block can be used.
+
+```bash
+terraform{}
+```
+![alt text](image-41.png)
+
+
+###  Resource Targeting
+
+- In a typical Terraform workflow, you apply the entire plan at once. This is also the default behaviour. 
+- Resource targeting in Terraform allows you to apply changes to a specific subset of resources rather than applying changes to your entire infrastructure.
+
+```bash
+ terraform plan -target resourcename.localname
+ terraform apply -target resourcename.localname
+ terraform destroy -target resourcename.localname
+```
+
+
+### Zipmap
+
+- The zipmap function constructs a map from a list of keys and a corresponding list of values.
+ ![alt text](image-42.png)
+
+  ```bash
+  output "zipmap" {
+  value = zipmap(aws_iam_user.lb[*].name, aws_iam_user.lb[*].arn)
+  }
+  ```
+### Meta Arguments
+- Terraform allows us to include meta-argument within the resource block which 
+allows some details of this standard resource behavior to be customized on a 
+per-resource basis.
+
+![alt text](image-43.png)
+- whenever we add tag on aws manully into the above mentioned resource terraform not delete this changes
+
+#### Meta-Argument - LifeCycle
+- The `lifecycle` block allows advanced control over a resource's life cycle. Here are the four primary arguments available:
+
+| Arguments | Description |
+| :--- | :--- |
+| **create\_before\_destroy** | New replacement object is created first, and the prior object is destroyed after the replacement is created. |
+| **prevent\_destroy** | Terraform to reject with an error any plan that would destroy the infrastructure object associated with the resource |
+| **ignore\_changes** | Ignore certain changes to the live resource that does not match the configuration. |
+| **replace\_triggered\_by** | Replaces the resource when any of the referenced items change |
+
+
+##### LifeCycle Meta-Argument - Create Before Destroy
+
+- default behaviour of terraform is when we change resource argument terraform will destroy the existing resource and then create a new replacement of resource
+
+- if we need to first create new resource and then destroy existing resource that thime we can use "create_before_destroy"
+
+
+#####  LifeCycle Meta-Argument - Prevent Destroy
+
+- This meta-argument, when set to true, will cause Terraform to reject with an 
+error any plan that would destroy the infrastructure object associated with the resource, as long as the argument remains present in the configuration.
+
+##### LifeCycle Meta-Argument - Ignore Changes
+
+- In cases where settings of a remote object is modified by processes outside of Terraform, the Terraform would attempt to "fix" on the next run.
+
+- In order to change this behavior and ignore the manually applied change, we 
+can make use of ignore_changes argument under lifecycle.
+
+- also if we change in code that will be also ignore.
+
+#### depends_on Meta Argument
+
+- The depends_on meta-argument instructs Terraform to complete all actions on 
+the dependency object before performing actions on the object declaring the 
+dependency.
+
+- The depends_on meta-argument explicitly tells Terraform that the 
+aws_instance.example must be created after aws_s3_bucket.example.
+
+![alt text](image-44.png)
+
+- When you run terraform destroy, the order is reversed to ensure dependencies 
+are not broken during deletion.
+
+
+
+### Implicit vs Explicit Dependencies
+
+- Explicit dependencies: are declared using the depends_on meta-argument. 
+   - You use this when there’s no direct attribute reference, but you still need to control the order of resource creation.
+    ![alt text](image-46.png)
+
+- Implicit Dependency:
+   - Since in aws_instance resource there is a reference to the ID of the 
+aws_security_group resource, Terraform automatically understands that the 
+security group must be created before the EC2 instance
+  ![alt text](image-47.png)
+       
+
+
+![alt text](image-45.png)
+
+### for_each Meta Argument
+
+- If a resource block includes a for_each meta argument whose value is a map or a set of strings, Terraform creates one instance for each member of that map or set.
+
+![alt text](image-48.png)
+![alt text](image-49.png)
+
+
+### Data Type - Object
+
+- An object is also a collection of key-value pairs, but each value can be of a different type.
+- A proper structure is generally required while defining object data type.
+
+![alt text](image-50.png)
